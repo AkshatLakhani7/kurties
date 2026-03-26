@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Section 1 - Kurti Tracker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #FDF6EE;
+  margin: 0;
+}
+
+.header {
+  background: #C2714F;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-size: 20px;
+  position: sticky;
+  top: 0;
+}
+
+.nav {
+  text-align: center;
+  margin: 10px;
+}
+
+.nav a {
+  text-decoration: none;
+  background: #7B3F00;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin: 5px;
+  display: inline-block;
+}
+
+.kurti-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  padding: 12px;
+}
+
+.kurti-card {
+  background: white;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.size-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+button {
+  background: #C2714F;
+  border: none;
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">Section 1 - Kurti Tracker</div>
+
+<div class="nav">
+<a href="section2.html">Section 2</a>
+<a href="summary.html">Summary</a>
+</div>
+
+<div class="kurti-grid" id="grid"></div>
+
+<script>
+const KURTIS = [
+"BandhaniBlue","GreenBlack","CoffeeBlackPatta","Bluepaan",
+"Rajasthani","BandhaniRed","Roma","GreenPurple","GreenBlue",
+"Green","GreyBlackPatta","Bluey","Pink","BandhaniGreen"
+];
+
+const SIZES = ["S","M","L","XL","XXL","XXXL","4XL","5XL"];
+
+let state = JSON.parse(localStorage.getItem('kurtiData')) || {};
+
+KURTIS.forEach(k=>{
+  if(!state[k]){
+    state[k]={};
+    SIZES.forEach(s=>state[k][s]=0);
+  }
+});
+
+function save(){
+  localStorage.setItem('kurtiData',JSON.stringify(state));
+}
+
+function change(k,s,d){
+  state[k][s]=Math.max(0,state[k][s]+d);
+  save();
+  render();
+}
+
+function render(){
+  const grid=document.getElementById('grid');
+  grid.innerHTML='';
+  KURTIS.forEach(k=>{
+    const card=document.createElement('div');
+    card.className='kurti-card';
+    card.innerHTML='<b>'+k+'</b>';
+    SIZES.forEach(s=>{
+      card.innerHTML+=`
+      <div class="size-row">
+      ${s}
+      <span>
+      <button onclick="change('${k}','${s}',-1)">-</button>
+      ${state[k][s]}
+      <button onclick="change('${k}','${s}',1)">+</button>
+      </span>
+      </div>`;
+    });
+    grid.appendChild(card);
+  });
+}
+render();
+</script>
+
+</body>
+</html>

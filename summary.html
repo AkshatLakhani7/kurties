@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Final Summary</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body { font-family:'Segoe UI'; background:#FDF6EE; margin:0; }
+.header { background:#C2714F; color:white; padding:15px; text-align:center; font-size:20px; position:sticky; top:0; }
+.nav { text-align:center; margin:10px; }
+.nav a {
+  text-decoration:none;
+  background:#7B3F00;
+  color:white;
+  padding:10px 15px;
+  border-radius:8px;
+  margin:5px;
+}
+.summary-box {
+  background:white;
+  margin:15px;
+  padding:15px;
+  border-radius:12px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.1);
+}
+pre {
+  background:#FDF0E6;
+  padding:15px;
+  white-space:pre-wrap;
+}
+button {
+  background:#C2714F;
+  color:white;
+  border:none;
+  padding:10px 15px;
+  border-radius:8px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">Final Summary</div>
+
+<div class="nav">
+<a href="section1.html">Section 1</a>
+<a href="section2.html">Section 2</a>
+</div>
+
+<div class="summary-box">
+<pre id="summary"></pre>
+<button onclick="copy()">Copy</button>
+<button onclick="resetAll()">Reset All</button>
+</div>
+
+<script>
+const SIZES=["S","M","L","XL","XXL","XXXL","4XL","5XL"];
+let state=JSON.parse(localStorage.getItem('kurtiData'))||{};
+let text='';
+let total=0;
+
+Object.keys(state).forEach(k=>{
+  const sizes=SIZES.filter(s=>state[k][s]>0);
+  if(!sizes.length) return;
+
+  text+=k+'\n';
+  sizes.forEach(s=>{
+    const c=state[k][s];
+    total+=c;
+    text+=c>1?s+'('+c+')\n':s+'\n';
+  });
+  text+='\n';
+});
+
+text+='Total Pieces: '+total;
+document.getElementById('summary').textContent=text;
+
+function copy(){
+  navigator.clipboard.writeText(text);
+}
+
+function resetAll(){
+  localStorage.removeItem('kurtiData');
+  location.reload();
+}
+</script>
+
+</body>
+</html>

@@ -297,7 +297,7 @@ body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--da
 const SEC1 = ["BandhaniBlue","GreenBlack","CoffeeBlackPatta","Bluepaan","Rajasthani","BandhaniRed","Roma","GreenPurple","GreenBlue","Green","GreyBlackPatta","Bluey","Pink","BandhaniGreen"];
 const SEC2 = ["HarviPurple","PankhudiMaroon","PankhudiBlue","HarviGrey","PattaBlue","RajvadiWhite","PattaPurple","PattaPink","PatiPurple","WhitePatta"];
 const ALL = [...SEC1,...SEC2];
-const SZ = ["S","M","L","XL","XXL","XXXL","4XL","5XL"];
+const SZ = ["S","M","L","XL","XXL","3X","4XL","5XL"];
 
 let state = JSON.parse(localStorage.getItem('kd3')||'{}');
 ALL.forEach(k=>{ if(!state[k]){state[k]={};SZ.forEach(s=>state[k][s]=0);} });
